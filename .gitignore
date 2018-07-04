@@ -1,0 +1,8 @@
+*.pyc
+*.egg-info
+*.egg
+develop-eggs
+eggs
+.DS_Store
+test
+*.docx
