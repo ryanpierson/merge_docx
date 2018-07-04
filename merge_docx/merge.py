@@ -38,7 +38,7 @@ def merge_docx(template, file, destination):
 
     # Remove the temporary files generated without floating elements. If a file
     # is being merged into itself, there will only be one document generated 
-    # without floats. Trying to delete both documents will throw an exception,
+    # without floats/hyperlinks. Trying to delete both documents will throw an exception,
     # but I don't care as long as the file gets deleted. 
     try:
         os.remove(template_no_elem)
