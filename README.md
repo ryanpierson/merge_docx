@@ -7,7 +7,7 @@ Learn more about the .docx file format here:
 ## Notes
 This script preserves inline images, page orientations, styles in the merge.<br />
 Floating shapes, header & footer references, external hyperlinks are removed.<br />
-Enhanced MetaFile '.emf' images are replaced with a placeholder .png image
+Enhanced MetaFile '.emf' images are replaced with a placeholder .png image.
 
 ## Usage
 Make sure you have python-docx installed
