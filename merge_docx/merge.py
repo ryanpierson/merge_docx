@@ -53,8 +53,10 @@ def merge_docx(template, file, destination):
     for element in sub_doc.element.body:
         merged_document.element.body.append(element)
 
+    # Regroup end-sections lost in the merge.
     handle_sections(merged_document)
 
+    # Remove all header and footer references.
     handle_headers_footers(merged_document)
 
     # Save the altered file
