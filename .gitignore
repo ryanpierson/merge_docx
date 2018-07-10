@@ -4,6 +4,6 @@
 develop-eggs
 eggs
 .DS_Store
-test/*
+docs/*
 *.docx
 script.py

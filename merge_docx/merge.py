@@ -8,6 +8,7 @@ from .utils.handle_styles import handle_styles
 from .utils.handle_inlines import handle_inlines
 from .utils.handle_sections import handle_sections
 from .utils.handle_headers_footers import handle_headers_footers
+from .utils.handle_footnotes import handle_footnotes
 
 # Merge 'file' into 'template'
 def merge_docx(template, file, destination):
@@ -58,6 +59,10 @@ def merge_docx(template, file, destination):
 
     # Remove all header and footer references.
     handle_headers_footers(merged_document)
+
+    # Remove all footnote references.
+    handle_footnotes(merged_document)
+
 
     # Save the altered file
     merged_document.save(destination)
