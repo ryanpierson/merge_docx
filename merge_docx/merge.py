@@ -12,6 +12,7 @@ from .utils.handle_footnotes import handle_footnotes
 
 # Merge 'file' into 'template'
 def merge_docx(template, file, destination):
+
     # Save with a .docx file extension
     if destination[-5:] != '.docx':
         destination += '.docx'
@@ -33,6 +34,12 @@ def merge_docx(template, file, destination):
     # The document to be merged in exists as the second file in the list. Note
     # that this script only merges 2 files at a time.
     sub_doc = Document(file_no_elem)
+
+
+
+    handle_footnotes(merged_document, sub_doc)
+
+
 
     # Add each style in sub_styles to merged_styles.
     handle_styles(merged_document, sub_doc)
@@ -61,7 +68,7 @@ def merge_docx(template, file, destination):
     handle_headers_footers(merged_document)
 
     # Remove all footnote references.
-    handle_footnotes(merged_document)
+    #handle_footnotes(merged_document)
 
 
     # Save the altered file
