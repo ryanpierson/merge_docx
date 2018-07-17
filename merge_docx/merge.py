@@ -13,7 +13,6 @@ from .utils.handle_footnotes import handle_footnotes
 from pkg_resources import resource_filename
 BLANK_FILE = resource_filename(__name__, 'blank.docx')
 
-
 # The first merge will be into a blank .docx file containing a footnote part.
 # This allows subsequently merged documents to preserve their footnotes.
 def blank_merge(file):

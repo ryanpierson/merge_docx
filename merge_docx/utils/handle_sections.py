@@ -3,11 +3,18 @@ import docx
 from docx.oxml.text.paragraph import CT_P
 from docx.oxml.document import CT_Body
 
+from docx.enum.section import WD_SECTION
+
 # Preserve orientation. Iterate over each sectPr in the merged document, 
 # excluding the last one. The last sectPr element is excluded because it 
 # should exist outside of any paragraph element. 
 # Refer to http://officeopenxml.com/WPsection.php for explanation.
 def handle_sections(doc):
+    # Make each section continuous to avoid creating a page break at each 
+    # new section.
+    for sect in doc.element.sectPr_lst:
+        sect.start_type = WD_SECTION.CONTINUOUS
+
     for sect in doc.element.sectPr_lst[:-1]:
         # If sectPr is not wrapped in a paragraph, wrap it in the previous
         # paragraph element
