@@ -10,8 +10,9 @@ from .utils.handle_sections import handle_sections
 from .utils.handle_headers_footers import handle_headers_footers
 from .utils.handle_footnotes import handle_footnotes
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-BLANK_FILE = dir_path + '/blank.docx'
+from pkg_resources import resource_filename
+BLANK_FILE = resource_filename(__name__, 'blank.docx')
+
 
 # The first merge will be into a blank .docx file containing a footnote part.
 # This allows subsequently merged documents to preserve their footnotes.

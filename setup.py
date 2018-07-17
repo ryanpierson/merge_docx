@@ -8,4 +8,7 @@ setup(name='merge_docx',
       install_requires=[
           'python-docx',
       ],
-      include_package_data=True,)
+      include_package_data=True,
+      package_data = {
+      '' : ['*.docx'],
+      })
