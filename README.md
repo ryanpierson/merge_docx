@@ -10,11 +10,6 @@ Floating shapes, header & footer references, external hyperlinks are removed.<br
 Enhanced MetaFile '.emf' images are replaced with a placeholder .png image.
 
 ## Usage
-Make sure you have python-docx installed
-```
-pip install python-docx
-```
-
 Download the source code
 ```
 pip install git+https://github.com/ryanpierson/merge_docx.git
