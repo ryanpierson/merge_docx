@@ -10,6 +10,8 @@ from .utils.handle_sections import handle_sections
 from .utils.handle_headers_footers import handle_headers_footers
 from .utils.handle_footnotes import handle_footnotes
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+BLANK_FILE = dir_path + '/blank.docx'
 
 # The first merge will be into a blank .docx file containing a footnote part.
 # This allows subsequently merged documents to preserve their footnotes.
@@ -20,7 +22,7 @@ def blank_merge(file):
     handle_hyperlinks(file_no_elem, file_no_elem)
 
     # blank.docx contains the necessary footnote part, so this is the template
-    merged_document = Document('templates/blank.docx')
+    merged_document = Document(BLANK_FILE)
 
     # The document to be merged in exists as the second file in the list. Note
     # that this script only merges 2 files at a time.
