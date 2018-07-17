@@ -5,5 +5,4 @@ develop-eggs
 eggs
 .DS_Store
 docs/*
-*.docx
 script.py
