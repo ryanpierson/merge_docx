@@ -9,6 +9,7 @@ from .utils.handle_inlines import handle_inlines
 from .utils.handle_sections import handle_sections
 from .utils.handle_headers_footers import handle_headers_footers
 from .utils.handle_footnotes import handle_footnotes
+from .utils.handle_numbers import handle_numbers
 
 from pkg_resources import resource_filename
 BLANK_FILE = resource_filename(__name__, 'blank.docx')
@@ -28,6 +29,7 @@ def blank_merge(file):
     # that this script only merges 2 files at a time.
     sub_doc = Document(file_no_elem)
 
+    # Add the footnotes from sub_doc to merged_document.
     handle_footnotes(merged_document, sub_doc)
 
     # Add each style in sub_styles to merged_styles.
@@ -44,6 +46,13 @@ def blank_merge(file):
 
     # Add the inline images from sub_doc into the merged document
     handle_inlines(merged_document, sub_doc)
+
+    
+
+    #
+    handle_numbers(merged_document, sub_doc)
+
+
 
     # Merge the document bodies   
     for element in sub_doc.element.body:
