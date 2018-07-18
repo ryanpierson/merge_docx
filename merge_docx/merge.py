@@ -49,7 +49,7 @@ def blank_merge(file):
 
     
 
-    #
+    # Add numbering elements from sub_doc into the merged document
     handle_numbers(merged_document, sub_doc)
 
 
@@ -129,6 +129,9 @@ def merge_docx(template, file, destination):
 
     # Add the inline images from sub_doc into the merged document
     handle_inlines(merged_document, sub_doc)
+
+    # Add numbering elements from sub_doc into the merged document
+    handle_numbers(merged_document, sub_doc)
 
     # Merge the document bodies   
     for element in sub_doc.element.body:
