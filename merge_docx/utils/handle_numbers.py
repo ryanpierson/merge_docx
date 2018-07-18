@@ -35,12 +35,10 @@ def handle_numbers(template, sub):
 	for elem in sub_abstract_list:
 		# Get the abstractNumId of the current element
 		abstract_id = int(elem.get(NS + 'abstractNumId'))
-
 		# Increment the current abstractNumId by the value of template's
 		# highest abstractNumId. This ensures each abstractNum element being
 		# merged in won't have a conflicting id
 		new_id = abstract_id + template_highest_abstract_id
-
 		# Set the abstractNum element's new id
 		elem.set(NS + 'abstractNumId', str(new_id))
 		# Add the abstractNum element to template's numbering part.
@@ -62,11 +60,11 @@ def handle_numbers(template, sub):
 		for child in children:
 			# Get the abstractNumId element's id value from the num element
 			abstract_id_val = int(child.get(NS + 'val'))
-			if abstract_id_val:
+			if abstract_id_val is not None:
 				# Increment the abstractNumId reference value by an amount equal to 
-			# template's highest abstract abstractNum id value. This is done to 
-			# match the offset created by incrementing sub's abstractNum's id 
-			# values earlier to maintain sub's numbering references.
+				# template's highest abstract abstractNum id value. This is done to 
+				# match the offset created by incrementing sub's abstractNum's id 
+				# values earlier to maintain sub's numbering references.
 				new_abstract_id = abstract_id_val + template_highest_abstract_id
 				child.set(NS + 'val', str(new_abstract_id))
 
