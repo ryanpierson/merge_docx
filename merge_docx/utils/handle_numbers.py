@@ -3,19 +3,26 @@ import docx
 
 NS = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 
+
 # Remove all hyperlinks from the document. This allows the generation of 
 # uncorrupted docx files from documents that have floating images.
 def handle_numbers(template, sub):
 
     # Get template's numbering.xml file
-    template_numbering_part = template.part.numbering_part.numbering_definitions._numbering
+    try:
+        template_numbering_part = template.part.numbering_part.numbering_definitions._numbering
+    except:
+        return
     # Get a list of template's abstractNum elements
     template_abstract_list = template_numbering_part.xpath('//w:abstractNum')
     # Get a list of temlate's num elements
     template_num_list = template_numbering_part.xpath('//w:num')
 
     # Do the same thing with sub
-    sub_numbering_part = sub.part.numbering_part.numbering_definitions._numbering
+    try:
+        sub_numbering_part = sub.part.numbering_part.numbering_definitions._numbering
+    except:
+        return
     sub_abstract_list = sub_numbering_part.xpath('//w:abstractNum')
     sub_num_list = sub_numbering_part.xpath('//w:num')
 
