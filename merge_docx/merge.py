@@ -111,11 +111,8 @@ def merge_docx(template, file, destination):
     # that this script only merges 2 files at a time.
     sub_doc = Document(file_no_elem)
 
-
-
+    # Add the footnotes from sub_doc to merged_document.
     handle_footnotes(merged_document, sub_doc)
-
-
 
     # Add each style in sub_styles to merged_styles.
     handle_styles(merged_document, sub_doc)
