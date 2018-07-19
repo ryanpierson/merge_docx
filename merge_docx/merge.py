@@ -18,9 +18,8 @@ BLANK_FILE = resource_filename(__name__, 'blank.docx')
 # This allows subsequently merged documents to preserve their footnotes.
 def blank_merge(file):
     file_no_elem = file + 'no_elem.docx'
-    # Remove floating shapes and hyperlinks
-    handle_floats(file, file_no_elem)
-    handle_hyperlinks(file_no_elem, file_no_elem)
+    # Remove hyperlinks
+    handle_hyperlinks(file, file_no_elem)
 
     # blank.docx contains the necessary footnote part, so this is the template
     merged_document = Document(BLANK_FILE)
@@ -47,12 +46,16 @@ def blank_merge(file):
     # Add the inline images from sub_doc into the merged document
     handle_inlines(merged_document, sub_doc)
 
+
+
+    # Preserve floating images
+    handle_floats(merged_document, sub_doc)
+
+
     
 
     # Add numbering elements from sub_doc into the merged document
     handle_numbers(merged_document, sub_doc)
-
-
 
     # Merge the document bodies   
     for element in sub_doc.element.body:
@@ -86,11 +89,9 @@ def merge_docx(template, file, destination):
     template_no_elem = template + 'no_elem.docx'
     file_no_elem = file + 'no_elem.docx'
 
-    # Remove floating shapes and hyperlinks
-    handle_floats(template, template_no_elem)
-    handle_floats(file, file_no_elem)
-    handle_hyperlinks(template_no_elem, template_no_elem)
-    handle_hyperlinks(file_no_elem, file_no_elem)
+    # Remove hyperlinks
+    handle_hyperlinks(template, template_no_elem)
+    handle_hyperlinks(file, file_no_elem)
 
     # Template was overwritten as 'temp.docx' in blank_merge, but is not needed
     # at this point because it has already been opened and processed
