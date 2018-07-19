@@ -5,7 +5,7 @@ Learn more about the .docx file format here:
 [OpenOfficeXML](http://officeopenxml.com/WPcontentOverview.php)
 
 ## Notes
-This script preserves inline images, page orientations, styles in the merge.<br />
+This script preserves inline images, page orientations, styles, and numbering in the merge.<br />
 Floating shapes, header & footer references, external hyperlinks are removed.<br />
 Enhanced MetaFile '.emf' images are replaced with a placeholder .png image.
 
