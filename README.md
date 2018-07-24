@@ -23,8 +23,8 @@ merge_docx('template.docx', 'sample.docx', 'destination.docx')
 A merged docx file will be created with the file name 'destination.docx'
 
 ## Explanation
-A .docx file is a zip folder containing a number of "parts"
-	- Typically UTF encoded XML files, though the ackage may also contain a media folder for images/video
+A .docx file is a zip folder containing a number of "parts"<br />
+   - Typically UTF encoded XML files, though the ackage may also contain a media folder for images/video
 
 ## Built With
 python-docx
