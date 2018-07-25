@@ -90,7 +90,7 @@ for element in sub_doc.element.body
   * Why? Consider merged_doc’s "word/\_rels/document.xml.rels" file:<br />
 ```xml
 <Relationships>
-    <Relationship Id=“rId1” Target=“styles.xml”/>
+	<Relationship Id=“rId1” Target=“styles.xml”/>
 	<Relationship Id=“rId2” Target=“settings.xml”/>
 	<Relationship Id=“rId3” Target=“webSettings.xml”/>
 	<Relationship Id=“rId4” Target=“fontTable.xml”/>
