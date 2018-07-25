@@ -33,7 +33,7 @@ Relationships between parts, i.e. images, footnotes, numbering, styles must be p
 | Microsoft Word |
 | -------------- |
 | Run of Text 1  |
-| Image          |
+| **Image**      |
 | Run of Text 2  |
 
   * Unzipping the .docx file and viewing the underlying "word/document.xml" file reveals this (simplified) xml representation:<br />
