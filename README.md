@@ -77,36 +77,30 @@ IMAGE PLACEHOLDER - rels2 file<br />
 
 How to correct for this?
 1. Get a list of all the inline images with an XPath query.
-   - 
-   ```python
-   sub_doc.element.xpath(‘//w:p/w:r/w:drawing/wp:inline’)
-   ```
+```python
+sub_doc.element.xpath(‘//w:p/w:r/w:drawing/wp:inline’)
+```
 2. From here, the rId for each image can be located.
-   - 
-   ```python
-   rId = shape._inline.graphic.graphicData.pic.blipFill.blip.embed
-   ```
+```python
+rId = shape._inline.graphic.graphicData.pic.blipFill.blip.embed
+```
 3. The rId allows us to look into the relationships file and retrieve the ”target” file.
-   - 
-   ```python
-   image_blob = sub_doc.part.related_parts[rId].image.blob
-   ```
-4. Now that we have the binary content for the image, we can add it into merged_doc’s media folder.
-   - 
-   ```python
-   new_rId = merged_doc.part.get_or_add_image(image_blob)
-   ```
+```python
+image_blob = sub_doc.part.related_parts[rId].image.blob
+```
+4. Now that we have the binary content for the image, we can add it into merged_doc’s media folder. 
+```python
+new_rId = merged_doc.part.get_or_add_image(image_blob)
+```
    - The image gets added into merged_doc’s media folder, and a relationship is created with the next available rId. This next available rId is returned and stored in new_rId.
 5. The final step before we can merge the documents is to update sub_doc’s ”word/document.xml” file with the new image rId. This is done with another XPath query to get a list of all <a:blip> elements.
-   - 
-   ```python
-   blip_list = sub_doc.element.xpath(‘//a:blip’)
-   ```
+```python
+blip_list = sub_doc.element.xpath(‘//a:blip’)
+```
 6. Then set the new rId value for each element in blip_list.
-   - 
-   ```python
-   blip_list[i].set('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed', new_rId)
-   ```
+```python
+blip_list[i].set('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed', new_rId)
+```
 7. At this point, the image and its relationship have been added into the merged document, so the images will display properly.
 
 
