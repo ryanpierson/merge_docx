@@ -90,11 +90,11 @@ for element in sub_doc.element.body
   * Why? Consider merged_doc’s "word/\_rels/document.xml.rels" file:<br />
 ```xml
 <Relationships>
-          <Relationship Id=“rId1” Target=“styles.xml”/>
-<Relationship Id=“rId2” Target=“settings.xml”/>
-<Relationship Id=“rId3” Target=“webSettings.xml”/>
-<Relationship Id=“rId4” Target=“fontTable.xml”/>
-<Relationship Id=“rId5” Target=“theme/theme1.xml”/>
+    <Relationship Id=“rId1” Target=“styles.xml”/>
+	<Relationship Id=“rId2” Target=“settings.xml”/>
+	<Relationship Id=“rId3” Target=“webSettings.xml”/>
+	<Relationship Id=“rId4” Target=“fontTable.xml”/>
+	<Relationship Id=“rId5” Target=“theme/theme1.xml”/>
 </Relationships>
 ```
   * When somebody views the merged document in Microsoft Word, it attempts to display the image from sub_doc by looking up its relationship ID followed by displaying the relationship’s target in the specified location, same process as before.<br />
