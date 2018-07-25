@@ -34,7 +34,7 @@ IMAGE PLACEHOLDER - example docx<br />
 IMAGE PLACEHOLDER - document.xml<br />
   * The text is stored directly within the "word/document.xml" file, but the image is not. Instead, Microsoft Word uses "relationships" to specify the connection between a source part and a target resource.<br />
   * Instead of embedding the image directly in a binary format, when word displays this file, it looks into the `<a:blip>` element for an `r:embed` attribute. This tells Word that something is supposed to be embedded in the document here, but it has to look up what it is.<br />
-   - This is achieved by `r:embed`’s "relationship ID" value, which is `rId4` in the example document.<br />
+      - This is achieved by `r:embed`’s "relationship ID" value, which is `rId4` in the example document.<br />
   * Once the relationship ID is located, Word then looks up the relationship ID’s target in the "word/\_rels/document.xml.rels" file. Below is a simplified version of that relationship file. We can see that rId4 corresponds to a file located at "media/image1.png,"" which is in fact the Proteus logo seen in the example Microsoft Word document.
 IMAGE PLACEHOLDER - rels file<br />
   * The use of relationships in Open Office XML allows developers to easily locate document resources without having the parse the document’s content directly. It presents a problem, however, when programmatically merging .docx files.<br />
