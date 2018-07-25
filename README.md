@@ -33,7 +33,7 @@ Relationships between parts, i.e. images, footnotes, numbering, styles must be p
 | Microsoft Word |
 | -------------- |
 | Run of Text 1  |
-|   **Image**    |
+| **Image**      |
 | Run of Text 2  |
 
   * Unzipping the .docx file and viewing the underlying "word/document.xml" file reveals this (simplified) xml representation:<br />
@@ -68,7 +68,7 @@ Relationships between parts, i.e. images, footnotes, numbering, styles must be p
   * The text is stored directly within the "word/document.xml" file, but the image is not. Instead, Microsoft Word uses "relationships" to specify the connection between a source part and a target resource.<br />
   * Instead of embedding the image directly in a binary format, when word displays this file, it looks into the `<a:blip>` element for an `r:embed` attribute. This tells Word that something is supposed to be embedded in the document here, but it has to look up what it is.<br />
       - This is achieved by `r:embed`’s "relationship ID" value, which is `rId4` in the example document.<br />
-  * Once the relationship ID is located, Word then looks up the relationship ID’s target in the "word/\_rels/document.xml.rels" file. Below is a simplified version of that relationship file. We can see that rId4 corresponds to a file located at "media/image1.png,"" which is in fact the Proteus logo seen in the example Microsoft Word document.
+  * Once the relationship ID is located, Word then looks up the relationship ID’s target in the "word/\_rels/document.xml.rels" file. Below is a simplified version of that relationship file. We can see that rId4 corresponds to a file located at "media/image1.png,"" which would in fact the image represented in the sample Microsoft Word document.
 ```xml
 <Relationships>
     <Relationship Id=“rId1” Target=“styles.xml”/>
