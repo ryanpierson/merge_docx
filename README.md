@@ -16,7 +16,7 @@ pip install git+https://github.com/ryanpierson/merge_docx.git
 ```
 
 Sample usage
-```
+```python
 from merge_docx import merge_docx
 merge_docx('template.docx', 'sample.docx', 'destination.docx')
 ```
@@ -31,7 +31,34 @@ Relationships between parts, i.e. images, footnotes, numbering, styles must be p
   * This is a Microsoft Word document consisting of a .png image surrounded by two runs of text. Saving this document stores it in the .docx file format.<br />
 IMAGE PLACEHOLDER - example docx<br />
   * Unzipping the .docx file and viewing the underlying "word/document.xml" file reveals this (simplified) xml representation:<br />
-IMAGE PLACEHOLDER - document.xml<br />
+```xml
+<w:document>
+    <w:body>
+        <w:p>
+            <w:r>
+                <w:t>Run of text 1</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:drawing>
+                    <simplified>
+                        <a:blip r:embed=“rId4”>
+                            <simplified>
+                        </a:blip>
+                    <simplified>
+                </w:drawing>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t>Run of text 1</w:t>
+            </w:r>
+        </w:p>
+    </w:body>
+</w:document>
+```
+
   * The text is stored directly within the "word/document.xml" file, but the image is not. Instead, Microsoft Word uses "relationships" to specify the connection between a source part and a target resource.<br />
   * Instead of embedding the image directly in a binary format, when word displays this file, it looks into the `<a:blip>` element for an `r:embed` attribute. This tells Word that something is supposed to be embedded in the document here, but it has to look up what it is.<br />
       - This is achieved by `r:embed`’s "relationship ID" value, which is `rId4` in the example document.<br />
@@ -46,25 +73,41 @@ IMAGE PLACEHOLDER - Python code<br />
 IMAGE PLACEHOLDER - rels2 file<br />
   * When somebody views the merged document in Microsoft Word, it attempts to display the image from sub_doc by looking up its relationship ID followed by displaying the relationship’s target in the specified location, same process as before.<br />
   * The problem is that the target of “rId4” in the merged document is a file called "fontTable.xml."" Surely Microsoft Word can’t display a font table as an image, so the image fails to render.<br />
-   - Additionally, the media folder containing the actual .png image file was never copied into the merged document’s media folder, so even if the relationship ID was correct it still couldn’t work.<br />
+      - Additionally, the media folder containing the actual .png image file was never copied into the merged document’s media folder, so even if the relationship ID was correct it still couldn’t work.<br />
 
 How to correct for this?
 1. Get a list of all the inline images with an XPath query.
-   - `sub_doc.element.xpath(‘//w:p/w:r/w:drawing/wp:inline’)`
+   - 
+   ```python
+   sub_doc.element.xpath(‘//w:p/w:r/w:drawing/wp:inline’)
+   ```
 2. From here, the rId for each image can be located.
-   - `rId = shape._inline.graphic.graphicData.pic.blipFill.blip.embed`
+   - 
+   ```python
+   rId = shape._inline.graphic.graphicData.pic.blipFill.blip.embed
+   ```
 3. The rId allows us to look into the relationships file and retrieve the ”target” file.
-   - `image_blob = sub_doc.part.related_parts[rId].image.blob`
+   - 
+   ```python
+   image_blob = sub_doc.part.related_parts[rId].image.blob
+   ```
 4. Now that we have the binary content for the image, we can add it into merged_doc’s media folder.
-   - `new_rId = merged_doc.part.get_or_add_image(image_blob)`
+   - 
+   ```python
+   new_rId = merged_doc.part.get_or_add_image(image_blob)
+   ```
    - The image gets added into merged_doc’s media folder, and a relationship is created with the next available rId. This next available rId is returned and stored in new_rId.
 5. The final step before we can merge the documents is to update sub_doc’s ”word/document.xml” file with the new image rId. This is done with another XPath query to get a list of all <a:blip> elements.
-   - `blip_list = sub_doc.element.xpath(‘//a:blip’)`
+   - 
+   ```python
+   blip_list = sub_doc.element.xpath(‘//a:blip’)
+   ```
 6. Then set the new rId value for each element in blip_list.
-   - `blip_list[i].set('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed', new_rId)`
+   - 
+   ```python
+   blip_list[i].set('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed', new_rId)
+   ```
 7. At this point, the image and its relationship have been added into the merged document, so the images will display properly.
-
-
 
 
 
