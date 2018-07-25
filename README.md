@@ -83,18 +83,18 @@ Relationships between parts, i.e. images, footnotes, numbering, styles must be p
   * This Python code adds each element in the body of "sub_doc" (the file being merged in) to the body of "merged_doc" (the file being merged into).<br />
 ```python
 for element in sub_doc.element.body
-	merged_doc.element.body.append(element)
+    merged_doc.element.body.append(element)
 ```
   * Considering the simplified xml representation of the example Microsoft Word document, it is clear that the body of that document has three child elements: a paragraph of text, a paragraph containing an image, and another paragraph of text.<br />
   * If sub_doc was the example .docx file, this script would take these three elements and add them to the end of merged_doc’s “word/document.xml” file. The runs of text would show up no problem because they already exist as a part of the element being copied over. The image, however, would be lost.<br />
   * Why? Consider merged_doc’s "word/\_rels/document.xml.rels" file:<br />
 ```xml
 <Relationships>
-	<Relationship Id=“rId1” Target=“styles.xml”/>
-	<Relationship Id=“rId2” Target=“settings.xml”/>
-	<Relationship Id=“rId3” Target=“webSettings.xml”/>
-	<Relationship Id=“rId4” Target=“fontTable.xml”/>
-	<Relationship Id=“rId5” Target=“theme/theme1.xml”/>
+    <Relationship Id=“rId1” Target=“styles.xml”/>
+    <Relationship Id=“rId2” Target=“settings.xml”/>
+    <Relationship Id=“rId3” Target=“webSettings.xml”/>
+    <Relationship Id=“rId4” Target=“fontTable.xml”/>
+    <Relationship Id=“rId5” Target=“theme/theme1.xml”/>
 </Relationships>
 ```
   * When somebody views the merged document in Microsoft Word, it attempts to display the image from sub_doc by looking up its relationship ID followed by displaying the relationship’s target in the specified location, same process as before.<br />
