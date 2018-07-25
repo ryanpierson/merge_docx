@@ -28,8 +28,14 @@ A .docx file is a zip folder containing a number of "parts"<br />
 Relationships between parts, i.e. images, footnotes, numbering, styles must be preserved when merging .docx files together<br />
 
 #### Example for inline images
-  * This is a Microsoft Word document consisting of a .png image surrounded by two runs of text. Saving this document stores it in the .docx file format.<br />
-IMAGE PLACEHOLDER - example docx<br />
+  * Consider this representation of a Microsoft Word document consisting of an image surrounded by two runs of text. Saving this document stores it in the .docx file format.<br />
+
+| Microsoft Word |
+| -------------- |
+| Run of Text 1  |
+| Image          |
+| Run of Text 2  |
+
   * Unzipping the .docx file and viewing the underlying "word/document.xml" file reveals this (simplified) xml representation:<br />
 ```xml
 <w:document>
@@ -52,7 +58,7 @@ IMAGE PLACEHOLDER - example docx<br />
         </w:p>
         <w:p>
             <w:r>
-                <w:t>Run of text 1</w:t>
+                <w:t>Run of text 2</w:t>
             </w:r>
         </w:p>
     </w:body>
@@ -63,14 +69,34 @@ IMAGE PLACEHOLDER - example docx<br />
   * Instead of embedding the image directly in a binary format, when word displays this file, it looks into the `<a:blip>` element for an `r:embed` attribute. This tells Word that something is supposed to be embedded in the document here, but it has to look up what it is.<br />
       - This is achieved by `r:embed`’s "relationship ID" value, which is `rId4` in the example document.<br />
   * Once the relationship ID is located, Word then looks up the relationship ID’s target in the "word/\_rels/document.xml.rels" file. Below is a simplified version of that relationship file. We can see that rId4 corresponds to a file located at "media/image1.png,"" which is in fact the Proteus logo seen in the example Microsoft Word document.
-IMAGE PLACEHOLDER - rels file<br />
+```xml
+<Relationships>
+    <Relationship Id=“rId1” Target=“styles.xml”/>
+    <Relationship Id=“rId2” Target=“settings.xml”/> 
+    <Relationship Id=“rId3” Target=“webSettings.xml”/>
+    <Relationship Id=“rId4” Target=“media/image1.png”/>
+    <Relationship Id=“rId5” Target=“fontTable.xml”/>
+    <Relationship Id=“rId6” Target=“theme/theme1.xml”/>
+</Relationships >
+```
   * The use of relationships in Open Office XML allows developers to easily locate document resources without having the parse the document’s content directly. It presents a problem, however, when programmatically merging .docx files.<br />
   * This Python code adds each element in the body of "sub_doc" (the file being merged in) to the body of "merged_doc" (the file being merged into).<br />
-IMAGE PLACEHOLDER - Python code<br />
+```python
+for element in sub_doc.element.body
+	merged_doc.element.body.append(element)
+```
   * Considering the simplified xml representation of the example Microsoft Word document, it is clear that the body of that document has three child elements: a paragraph of text, a paragraph containing an image, and another paragraph of text.<br />
   * If sub_doc was the example .docx file, this script would take these three elements and add them to the end of merged_doc’s “word/document.xml” file. The runs of text would show up no problem because they already exist as a part of the element being copied over. The image, however, would be lost.<br />
   * Why? Consider merged_doc’s "word/\_rels/document.xml.rels" file:<br />
-IMAGE PLACEHOLDER - rels2 file<br />
+```xml
+<Relationships>
+          <Relationship Id=“rId1” Target=“styles.xml”/>
+<Relationship Id=“rId2” Target=“settings.xml”/>
+<Relationship Id=“rId3” Target=“webSettings.xml”/>
+<Relationship Id=“rId4” Target=“fontTable.xml”/>
+<Relationship Id=“rId5” Target=“theme/theme1.xml”/>
+</Relationships>
+```
   * When somebody views the merged document in Microsoft Word, it attempts to display the image from sub_doc by looking up its relationship ID followed by displaying the relationship’s target in the specified location, same process as before.<br />
   * The problem is that the target of “rId4” in the merged document is a file called "fontTable.xml."" Surely Microsoft Word can’t display a font table as an image, so the image fails to render.<br />
       - Additionally, the media folder containing the actual .png image file was never copied into the merged document’s media folder, so even if the relationship ID was correct it still couldn’t work.<br />
