@@ -66,14 +66,16 @@ def handle_numbers(template, sub):
         children = elem.getchildren()
         for child in children:
             # Get the abstractNumId element's id value from the num element
-            abstract_id_val = int(child.get(NS + 'val'))
-            if abstract_id_val is not None:
-                # Increment the abstractNumId reference value by an amount equal to 
-                # template's highest abstract abstractNum id value. This is done to 
-                # match the offset created by incrementing sub's abstractNum's id 
-                # values earlier to maintain sub's numbering references.
-                new_abstract_id = abstract_id_val + template_highest_abstract_id
-                child.set(NS + 'val', str(new_abstract_id))
+            if child.tag == NS + 'abstractNumId':
+
+                abstract_id_val = int(child.get(NS + 'val'))
+                if abstract_id_val is not None:
+                    # Increment the abstractNumId reference value by an amount equal to 
+                    # template's highest abstract abstractNum id value. This is done to 
+                    # match the offset created by incrementing sub's abstractNum's id 
+                    # values earlier to maintain sub's numbering references.
+                    new_abstract_id = abstract_id_val + template_highest_abstract_id
+                    child.set(NS + 'val', str(new_abstract_id))
 
 
         # Get the current element's numId
@@ -135,16 +137,4 @@ def handle_numbers(template, sub):
     #Re-add each num element
     for elem in num_list:
         final_numbering_part.append(elem)
-
-
-
-
-
-
-
-
-    
-        
-
-
 
