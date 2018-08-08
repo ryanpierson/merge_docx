@@ -25,8 +25,16 @@ def handle_inlines(template, sub):
         
         # Get the rId
         shape = shapes[i]
-        rId = shape._inline.graphic.graphicData.pic.blipFill.blip.embed
+        if shape._inline.graphic.graphicData.pic:
+            rId = shape._inline.graphic.graphicData.pic.blipFill.blip.embed
+        else:
+            #remove this shape
+            drawing_element = shape._inline.getparent()
+            drawing_parent = drawing_element.getparent()
+            drawing_parent.remove(drawing_element)
+            continue
         
+
         # ImagePart object
         image_part = sub.part.related_parts[rId]
 
