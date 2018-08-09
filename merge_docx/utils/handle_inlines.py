@@ -25,7 +25,7 @@ def handle_inlines(template, sub):
         
         # Get the rId
         shape = shapes[i]
-        if shape._inline.graphic.graphicData.pic:
+        if shape._inline.graphic.graphicData.pic is not None:
             rId = shape._inline.graphic.graphicData.pic.blipFill.blip.embed
         else:
             #remove this shape
