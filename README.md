@@ -5,7 +5,7 @@ Learn more about the .docx file format here:
 [OpenOfficeXML](http://officeopenxml.com/WPcontentOverview.php)
 
 ## Notes
-This script preserves inline images, page orientations, styles, and numbering in the merge.<br />
+This script preserves inline images, page orientations, styles, footnotes, and numbering in the merge.<br />
 Floating shapes, header & footer references, external hyperlinks are removed.<br />
 Enhanced MetaFile '.emf' images are replaced with a placeholder .png image.
 
@@ -24,7 +24,7 @@ A merged docx file will be created with the file name 'destination.docx'
 
 ## Explanation
 A .docx file is a zip folder containing a number of "parts"<br />
-   - Typically UTF encoded XML files, though the ackage may also contain a media folder for images/video<br />
+   - Typically UTF encoded XML files, though the package may also contain a media folder for images/video<br />
 Relationships between parts, i.e. images, footnotes, numbering, styles must be preserved when merging .docx files together<br />
 
 #### Example for inline images
